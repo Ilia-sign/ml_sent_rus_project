@@ -26,4 +26,4 @@ def predict(text):
     outputs = model(**inputs)
     predicted = torch.nn.functional.softmax(outputs.logits, dim=1)
     predicted = torch.argmax(predicted, dim=1).numpy()
-    return
+    return predicted
