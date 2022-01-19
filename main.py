@@ -34,6 +34,6 @@ def predict(text):
       print("NEGATIVE")
     return predicted
 
-text = "Привет, негодяй! Как дела?"
+text = input("Введите текст: ")
 
 predict(text)
