@@ -4,7 +4,7 @@ from transformers import AutoModelForSequenceClassification
 from transformers import BertTokenizerFast
 
 #class Item(BaseModel):
-    text: "Не важно.Всё нормально"
+    #text: "Не важно.Всё нормально"
 
 app = FastAPI()
 #classifier = pipeline("sentiment-analysis")
