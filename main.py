@@ -26,4 +26,14 @@ def predict(text):
     outputs = model(**inputs)
     predicted = torch.nn.functional.softmax(outputs.logits, dim=1)
     predicted = torch.argmax(predicted, dim=1).numpy()
+    if predicted == 0:
+      print("NEUTRAL")
+    elif predicted == 1:
+      print("POSITIVE")
+    else:
+      print("NEGATIVE")
     return predicted
+
+text = "Привет, негодяй! Как дела?"
+
+predict(text)
