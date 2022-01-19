@@ -1,42 +1,29 @@
 from fastapi import FastAPI
-import torch
-from transformers import AutoModelForSequenceClassification
-from transformers import BertTokenizerFast
+from transformers import pipeline
+from pydantic import BaseModel
 
-#class Item(BaseModel):
-    #text: "Не важно.Всё нормально"
+
+class Item(BaseModel):
+    text: str
 
 app = FastAPI()
-#classifier = pipeline("sentiment-analysis")
+classifier = pipeline("sentiment-analysis")
 
 @app.get("/")
 def root():
     return {"message": "Hello UrFU"}
 
 
-tokenizer = BertTokenizerFast.from_pretrained('blanchefort/rubert-base-cased-sentiment-rusentiment')
-model = AutoModelForSequenceClassification.from_pretrained('blanchefort/rubert-base-cased-sentiment-rusentiment', return_dict=True)
+classifier = pipeline("sentiment-analysis",   
+                      "blanchefort/rubert-base-cased-sentiment")
 
-@torch.no_grad()
-def predict(text):
-    inputs = tokenizer(text, max_length=512, padding=True, truncation=True, return_tensors='pt')
-    outputs = model(**inputs)
-    predicted = torch.nn.functional.softmax(outputs.logits, dim=1)
-    predicted = torch.argmax(predicted, dim=1).numpy()
-    if predicted == 0:
-      print("NEUTRAL")
-    elif predicted == 1:
-      print("POSITIVE")
-    else:
-      print("NEGATIVE")
-    return predicted
+classifier("Я обожаю инженерию машинного обучения!")
 
-text = input("Введите текст: ")
-
-predict(text)
 
 
 @app.post("/predict/")
-def predict(text):
-    return predicted(text)
+def predict(item: Item): 
+    return classifier(item.text)[0]
     
+
+   
