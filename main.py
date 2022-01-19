@@ -37,6 +37,6 @@ predict(text)
 
 
 @app.post("/predict/")
-def predict(item: text):
-    return predicted(item.text)
+def predict(text):
+    return predicted(text)
     
